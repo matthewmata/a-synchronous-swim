@@ -1,29 +1,47 @@
-(function() {
-
+(function() { 
   const serverUrl = 'http://127.0.0.1:3000';
 
   //
   // TODO: build the swim command fetcher here
   //
-
+  
+  const ajaxFileGet = () => {
+    $.ajax({
+      type: 'GET',
+      dataType: 'json',
+      url: serverUrl,
+      success: (data) => {
+        if(data){
+          setTimeout(() => {
+            SwimTeam.move(data)
+            ajaxFileGet()
+          }, 500); 
+        }
+      },
+      error: (error) => console.error(error)
+    })
+  }
+  ajaxFileGet();
   /////////////////////////////////////////////////////////////////////
   // The ajax file uplaoder is provided for your convenience!
   // Note: remember to fix the URL below.
   /////////////////////////////////////////////////////////////////////
 
-  const ajaxFileUplaod = (file) => {
+  const ajaxFileUpload = (file) => {
     var formData = new FormData();
     formData.append('file', file);
     $.ajax({
       type: 'POST',
       data: formData,
-      url: 'FILL_ME_IN',
+      dataType: 'json',
+      url: serverUrl,
       cache: false,
       contentType: false,
       processData: false,
-      success: () => {
-        // reload the page
+      success: (data) => {
+        console.log(data);
         window.location = window.location.href;
+        
       }
     });
   };
@@ -43,7 +61,7 @@
       return;
     }
 
-    ajaxFileUplaod(file);
+    ajaxFileUpload(file);
   });
 
 })();
