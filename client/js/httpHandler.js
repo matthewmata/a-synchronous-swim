@@ -15,7 +15,7 @@
           setTimeout(() => {
             SwimTeam.move(data)
             ajaxFileGet()
-          }, 500); 
+          }, 5); 
         }
       },
       error: (error) => console.error(error)
@@ -33,15 +33,14 @@
     $.ajax({
       type: 'POST',
       data: formData,
-      dataType: 'json',
       url: serverUrl,
       cache: false,
       contentType: false,
       processData: false,
       success: (data) => {
-        console.log(data);
-        window.location = window.location.href;
-        
+        console.log(JSON.stringify(data));
+        // window.location = window.location.href;
+        $('.pool').css('background-image', JSON.parse(data));
       }
     });
   };

@@ -19,14 +19,20 @@ module.exports.router = (req, res, next = ()=>{}) => {
     res.end();
   } else if(req.method === 'POST'){
     let body = [];
-    req.on('data', (chunk) => {
+    req.on('error', (err) => {
+      console.error(err);
+    }).on('data', (chunk) => {
       body.push(chunk);
     }).on('end', () => {
       body = Buffer.concat(body).toString();
-      console.log(typeof body , body)
-      messages.background = body;
+
+      res.on('error', (err) => {
+        console.error(err);
+      });
       res.writeHead(200, headers);
-      res.end(JSON.stringify(body[0]));
+      // console.log(JSON.stringify(body))
+      res.end(JSON.stringify(body))
     })
   }
+
 };
