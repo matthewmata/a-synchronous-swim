@@ -9,7 +9,7 @@
     $.ajax({
       type: 'GET',
       dataType: 'json',
-      url: serverUrl,
+      url: serverUrl + '/movement',
       success: (data) => {
         if(data){
           setTimeout(() => {
@@ -27,24 +27,39 @@
   // Note: remember to fix the URL below.
   /////////////////////////////////////////////////////////////////////
 
+  const ajaxPictureGet = () => {
+    $.ajax({
+      type: 'GET',
+      dataType: 'json',
+      url: serverUrl + '/picture',
+      success: (data) => {
+        //do some parse on the txt to get the image back
+        console.log('in client');
+        // $('.pool').css('background-image', data)
+      },
+      error: (error) => {
+        console.log('in client error')
+      }
+    })
+  }
+  ajaxPictureGet()
+
   const ajaxFileUpload = (file) => {
     var formData = new FormData();
     formData.append('file', file);
     $.ajax({
       type: 'POST',
       data: formData,
-      url: serverUrl,
+      url: serverUrl + '/beckham',
       cache: false,
       contentType: false,
       processData: false,
-      success: (data) => {
-        console.log(JSON.stringify(data));
-        // window.location = window.location.href;
-        $('.pool').css('background-image', JSON.parse(data));
+      success: () => {
+        window.location = window.location.href;
       }
     });
   };
-
+  
   $('form').on('submit', function(e) {
     e.preventDefault();
 
